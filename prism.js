@@ -29,7 +29,7 @@ themes.push({
  * @see http://prismjs.com/#languages-list
  */
 var prismDefalutComponents = [
-  'core', 'markup', 'css', 'clike', 'javascript'
+  'core', 'markup', 'css'
 ];
 /**
  * If you want to add another plugin, 
@@ -37,7 +37,7 @@ var prismDefalutComponents = [
  * @see http://prismjs.com/#plugins
  */
 var prismPlugins = [
-  'line-highlight', 'line-numbers'
+  'line-highlight', 'line-numbers', 'keep-markup'
 ];
 /**
  * If you want to use another theme, change theme name

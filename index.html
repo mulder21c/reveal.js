@@ -1,49 +1,686 @@
 <!doctype html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-		<title>reveal.js</title>
+    <title>reveal.js</title>
 
-		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/moon.css">
+    <link rel="stylesheet" href="lib/font/source-sans-pro/source-sans-pro.css" />
+    <link rel="stylesheet" href="lib/css/spoqa-han-sans-kr.css" />
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/moon.css">
 
-		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="plugins/prismjs/prism.min.css">
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="plugin/prismjs/prism.min.css">
 
-		<!-- Printing and PDF exports -->
-		<script>
-			var link = document.createElement( 'link' );
-			link.rel = 'stylesheet';
-			link.type = 'text/css';
-			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
-			document.getElementsByTagName( 'head' )[0].appendChild( link );
-		</script>
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
-			</div>
-		</div>
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <h1><span class="non-break">WAI-ARIA</span> <span class="non-break">Best Practices</span></h1>
+          <p data-align="right">
+            콘텐츠연합플랫폼 <br>
+            클라이언트개발부 지성봉
+          </p>
+          <aside class="notes">
+            (간단한 인사)
+          </aside>
+        </section>
+        <section>
+          <section>
+            <h2>What is WAI-ARIA</h2>
+            <aside class="notes">
+              우선 WAI-ARIA가 무엇인가? 에 대해서 먼저 가볍게 알아보고 가려고 합니다.
+            </aside>
+          </section>
+          <section>
+            <dl>
+              <dt>WAI</dt>
+              <dd>Web Accessibility Initiative</dd>
+              <dt>ARIA</dt>
+              <dd>Accessible Rich Internet Application</dd>
+            </dl>
+            <aside class="notes">
+              WAI-ARIA는 이 약어이구요, W3C의 WAI에서 제정한 RIA의 접근성 보장을 위한 
+              기술 규격 입니다.
+            </aside>
+          </section>
+          <section>
+            <img src="images/wai-aria-1.0.png" alt="WAI-ARIA 1.0 Working Draft 화면 캡쳐" class="stretch">
+            <aside class="notes">
+              WAI-ARIA는 2006년에 First Working Draft가 시작되었구요, 2014년 3월에 1.0 버전이 
+              recommendation으로 등록되었습니다.
+            </aside>
+          </section>
+          <section>
+            <img src="images/wai-aria-1.1.png" alt="WAI-ARIA 1.1 명세 화면 캡쳐" class="stretch">
+            <aside class="notes">
+              <p>현재 1.1 버전이 Proposal Recommendation 버전으로 등록되어 있고, W3C 문서는 최신 
+                권고안을 볼 수 있는 대표 주소가 있는데, 이 주소로 들어가보면 보통은 Recommendataion
+                버전의 문서가 보여지는데 WAI-ARIA는 이 PR 버전으로 접근이 됩니다. 즉, 현재는 1.1이 
+                최종 권고안이라고 해도 될 것 같습니다.</p>
+              <p>WAI-ARIA 가 등장한지 거의 10년이 되었는데 WAI-ARIA 발표를 해보면 WAI-ARIA를 처음 
+                들어본다 하시는 분들이 많은 것 같더라구요.</p>
+            </aside>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h2>Why use?</h2>
+            <aside class="notes">
+              <p>그럼 이걸 왜 사용하는가? </p>
+              <p>이를 알아야 이것이 어디에 쓰이는 물건이고 사용하면 뭐가 
+                좋기에 이걸 앞에 나와서 설명하고 있는가를 알 수 있겠죠? </p>
+            </aside>
+          </section>
+          <section>
+            <h3 class="heading4"><span class="non-break">supplement for</span> <span class="non-break">native language semantics</span>, <span class="non-break">not a replacement</span></h3>
+            <aside class="notes">
+              <p>W3C의 WAI-ARIA 명세에서 WAI-ARIA는 네이티브 언어의 의미론을 보완하기 위한 것이라 
+                기술하고 있습니다.</p>
+              <p>그리고 추가로 교체가 아니라고 기술되어 있는데요, 이것은 WAI-ARIA가 native language의 
+                의미를 교체하는데 사용하는 것이 아니라는 이 점을 이야기 하구요, 이를 잘 기억하고 
+                있어야 WAI-AIRA를 오용하는 일을 줄일 수 있습니다. 가능은 하나 의도와는 맞지 않다라는 
+                것입니다.</p>
+            </aside>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h2>Role, Property, State</h2>
+            <aside class="notes">
+              WAI-ARIA는 Role, Property, State이 세 가지를 통해 정보를 전달하게 됩니다.
+            </aside>
+          </section>
+          <section>
+            <h3>Role</h3>
+            <span class="non-break">Attaching a role gives</span> 
+            <span class="non-break">assistive technologies information</span> 
+            <span class="non-break">about how to handle each element</span>
+            <aside class="notes">
+              <p>Role이란 것은 우리말로 하면 역할이죠.</p>
+              <p>WAI-ARIA에서 Role을 부여하는 것은 <br>
+                각 요소가 어떤 역할이다 라는 것을 부여하여 <br>
+                스크린리더 같은 보조 기술에 각 요소를 어떻게 처리해야 한다는 정보를 제공합니다.</p>
+              <p>예를 들어, button role을 주었다면 이 요소에는 button 역할을 부여하고 버튼으로서 
+              처리를 해야 한다는 정보를 제공하는 것이죠.</p>
+            </aside>
+          </section>
+          <section>
+            <pre class="language-markup"><code>&lt;tag role="<var>keyword</var>"></code></pre>
+            <pre class="fragment fade-in language-markup"><code>&lt;div role="navigation"></code></pre>
+            <a href="https://www.w3.org/TR/wai-aria/#x5-4-definition-of-roles" class="fragment fade-up" target="_blank" title="새창에서 열림">list of role keywords</a>
+            <aside class="notes">
+              <p>role을 적용하는 것은 단순히 attribute를 적용하듯 사용합니다. </p>
+              (클릭)
+              <p>예를 들어 div 요소에 navigation role을 부여하기 위해 이런 식으로 사용할 수 있습니다.</p>
+              <p>
+                이 역할은 아무거나 임의로 적용하는 것은 아니구요, 정해져 있는 키워드들이 있습니다. (클릭)
+              </p>
+            </aside>
+          </section>
+          <section>
+            <h3>Property, State</h3>
+            <span class="non-break">Both provide specific information</span> 
+            <span class="non-break">about an object,</span> 
+            <span class="non-break">and both form part of the definition</span> 
+            <span class="non-break">of the nature of roles.</span> 
+            <aside class="notes">
+              <p>Property와 State 즉, 속성과 상태는 "객체에 대한 특정한 정보를 전달하고,
+                역할의 특징에 대한 정의의 일부를 형성합니다." 라고 W3C에 나와 있는데요 <br>
+                쉽게 말해, 해당 객체에 대한 속성(성질)이나 현재 상태를 부여합니다. </p>
+              <p>예를 들어, 객체의 레이블을 정의하거나, 하위 메뉴를 가지고 있는지의 속성을 
+                설정하거나, 현재 펼쳐진 상태인지 닫혀진 상태인지 등을 설정합니다.</p>
+            </aside>
+          </section>
+          <section>
+            <pre class="language-markup"><code>&lt;tag aria-*="value"></code></pre>
+            <pre class="fragment language-markup"><code>&lt;button aria-expanded="false" aria-controls="sect1"></code></pre>
+            <aside class="notes">
+              <p>property와 state는 aria- prefix를 사용하여 attribute 이름으로 사용합니다.</p>
+              (클릭) 
+              <p>button 요소에 펼침 상태를 접힘 상태 즉 false로 부여하고, 이 버튼이 sect1 이라는 
+              ID를 가진 요소에 대한 컨트롤이라는 속성을 부여하기 위해 이렇게 사용합니다.</p>
+            </aside>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h2>How to improve a11y with WAI-ARIA</h2>
+            <aside class="notes">
+              그럼 이제, 이 WAI-ARIA를 가지고 접근성을 향상시키기 위해 어떻게 해야 하는지를 보도록 
+              하겠습니다.
+            </aside>
+          </section>
+          <section>
+            <h3>Step 1</h3>
+            <p class="fragment">
+              use native HTML
+            </p>
+            <aside class="notes">
+              <p>첫 번째는 일단 native HTML을 사용하는 겁니다. <br>
+              정말 불가능한 경우가 아닌 이상 native HTML을 사용하여 semantic markup을 하는 것이 
+              시작이라 할 수 있습니다.</p> 
+              <p>앞서 WAI-ARIA를 왜 사용해야 하는가를 이야기 할 때, <br>
+                네이티브 언어의 의미론을 보완하기 위한 것이라고 말씀을 드렸는데요, 
+                WAI-ARIA의 목적이 보완이기 때문에 native HTML을 사용해야하는 것이 가장 기본이됩니다.</p>
+            </aside>
+          </section>
+          <section>
+            <h4>then, when use WAI-ARIA?</h4>
+            <ul>
+              <li class="fragment fade-up">the feature is available in HTML but it is not implemented 
+              or it is implemented, but accessibility support is not.</li>
+              <li class="fragment fade-up">visual design constraints rule out the use of a particular 
+              ative element</li>
+              <li class="fragment fade-up">feature is not currently available in HTML</li>
+            </ul>
+            <aside class="notes">
+              <p>그렇다면, 언제 WAI-ARIA를 사용하게 될까요? </p>
+              <ul>
+                <li>
+                  (클릭) 첫째로, 기능이 HTML로 가능하지만 아직 구현되지 않았거나, 구현은 
+                  되어 있지만 브라우저에서 접근성 지원이 되지 않은 경우
+                </li>
+                <li>
+                  (클릭) 둘째로, 커스텀 컴포넌트와 같이 시각적 디자인의 이유로 특정 네이티브 요소를 
+                  사용할 수 없는 경우
+                </li>
+                <li>
+                  (클릭) 셋째로, 기능이 현재 HTML로 사용할 수 없는 경우
+                </li>
+              </ul>
+              <p>
+                예를 들어, 탭 콘텐츠 같은 것은 HTML 명세로는 이것이 탭 기능이다라는 것을 전달할 수가 
+                없죠. 이런 경우 WAI-ARIA를 사용하여 해당 정보를 보완해 줄 수 있게 됩니다.
+              </p>
+            </aside>
+          </section>
+          <section>
+            <h3>Step 2</h3>
+            <p class="fragment">
+              Add ARIA
+            </p>
+            <aside class="notes">
+              native HTML를 사용한 후, 이것만으로 제공되기 어려운 정보들을 ARIA를 추가하여 더 향상된 
+              접근성을 제공합니다.
+            </aside>
+          </section>
+          <section>
+            <h4>inline or via Script?</h4>
+            <ul>
+              <li class="fragment">If the ARIA role or aria-* attribute does not rely on scripting 
+              to provide interaction behavior,  then inline.</li>
+              <li class="fragment">If the content and interaction is only supported in a 
+              scripting-enabled browsing context, then inline.</li>
+              <li class="fragment">If the ARIA role or aria-* attribute can be inserted, changed and 
+              removed ARIA via scripting, then via script.</li>
+            </ul>
+            <aside class="notes">
+              <p>그런데 앞서 언급한 바와 같이 ARIA는 동적인 웹 페이지에 관련된 것이기 때문에 
+                inline으로 미리 markup에 두어야 하는가? 혹은 script에 의해 DOM에 추가해야 하는가라는 
+                궁금증이 생기는 데요, W3C에서는 크게 다음의 두 가지 기준을 제공하고 있습니다. </p>
+              <p>(클릭) ARIA role이나 aria-* 속성이 인터랙션을 제공하는데 스크립트에 의존하지 않는다면 
+              inline으로,</p>
+              <p>(클릭) 콘텐트와 인터랙션이 스크립트 활성화 브라우징 콘텍트스에서만 지원되는 경우에도, 
+              inline으로 하는 것이 안전하고,</p>
+              <p>(클릭) ARIA role이나 aria-* 속성이 스크립트를 통해 추가,변경,제거 되어야 하는 경우에는 
+                스크립트를 통해서 </p>
+              <p>작성하도록 권장하고 있습니다.</p>
+            </aside>
+          </section>
+          <section>
+            <h3>Step 3</h3>
+            <p class="fragment">
+              developing keyboard interface
+            </p>
+            <aside class="notes">
+              그리고 중요한 것이 바로 키보드 인터페이스를 개발해야 합니다.
+            </aside>
+          </section>
+          <section>
+            <h4>requirements</h4>
+            <ul>
+              <li class="fragment">All interactive ARIA controls must be usable with the keyboard.</li>
+              <li class="fragment">If can click or tap or drag or drop or slide or scroll, must also 
+              be able to perform an equivalent action using the keyboard</li>
+              <li class="fragment">All interactive widgets must be scripted to respond to standard 
+              key strokes or key stroke combinations where applicable</li>
+            </ul>
+            <aside class="notes">
+              <ul>
+                <li>
+                  모든 대화형 aria 컨트롤들은 키보드로 사용가능해야 하고
+                </li>
+                <li>
+                  클릭 할 수 있거나 탭, 드래그, 드롭, 슬라이드, 스크롤 할 수 있다면, 키보드를 
+                  사용해서 동등한 수준의 행위를 할 수 있어야 합니다.
+                </li>
+                <li>
+                  대화형 위젯은 표준 키 스트록이나 키 스트록 조합에 응답하도록 스크립팅 되어야 합니다.
+                </li>
+              </ul>
+              <p>
+                예를 들어, button role를 부여한 요소가 있다면 이는 <kbd>space</kbd>나 <kbd>enter</kbd>키로 
+                활성화가 가능해야 합니다.
+              </p>
+            </aside>
+          </section>
+        </section>
+        <section>
+          <h2>Best Practices</h2>
+          <aside class="notes">
+            제게 주어진 시간이 30분 밖에 되지 않기 때문에, 두가지 사례를 가지고 기존 코드에 ARIA기술을 
+            어떻게 적용하는지에 대해 간략하게 알아보도록 하겠습니다.
+          </aside>
+        </section>
+        <section>
+          <section>
+            <h3>Landmark</h3>
+            <aside class="notes">
+              <p>첫 번째는 landmark 를 사용하는 예입니다. </p>
+              <p>구현할 수있는 가장 쉬운 ARIA 기능 중 하나이자 스크린리더 사용자에게 중요한 
+              즉각적인 이점을 제공하는 기능 중 하나가 랜드 마크 역할 입니다. </p>
+            </aside>
+          </section>
+          <section>
+            <img src="images/skip-nav.png" alt="여러 개의 바로가기 링크 제공 사례 캡쳐 화면" class="stretch">
+            <aside class="notes">
+              Skip Navigation 많이 사용하시죠? 한 페이지에서 많은 정보를 보여주어야 하는 포털 사이트 
+              같은 경우에는 단순히 반복 영역 건너뛰기 외에, 여러 개의 바로가기 링크를 Skip Navigation에
+              담아서 보여주는 케이스가 종종 있습니다.
+            </aside>
+          </section>
+          <section>
+            <h4>legecy</h4>
+            <pre class="language-markup"><code>&lt;div class="header">
+  &lt;h1>ARIA Landmarks Example&lt;/h1>
+&lt;/div>
+&lt;div class="navigation">
+  &lt;ul>&lt;li>&lt;a>...&lt;/a>&lt;/li>...&lt;/ul>
+&lt;/div>
+&lt;div class="main">
+  &lt;h2>Banner Landmark&lt;/h2>
+  &lt;div class="tab-container">
+	  ...
+  &lt;/div>
+&lt;/div>
+&lt;div class="sidebar">
+  &lt;h2>Landmarks&lt;/h2>
+&lt;/div>
+&lt;div class="sidebar">
+  &lt;h2>Related W3C Documents&lt;/h2>
+&lt;/div>
+&lt;div class="footer">
+  Copyright
+&lt;/div></code></pre>
+            <aside class="notes">
+              아마 기존에는 이러한 식으로 마크업을 많이 했을 텐데요
+            </aside>
+          </section>
+          <section>
+            <img src="images/landmark.png" alt="랜드마크 제공 사례  캡쳐 화면" class="stretch">
+            <aside class="notes">
+              landmark role을 이용하면 조금 더 세련된 방법으로 각 영역으로 바로가기를 제공할 수 
+              있습니다.
+              <p>
+                현재 Sense Reader, NVDA, JAWA, Window Eyes, Voiceover 등의 주요 스크린리더기들에서 
+                랜드마크 탐색 단축키가 제공되고 있어, 언제 어느 곳에 위치해있었든지 랜드마크를 
+                기준으로 컨텐츠를 손쉽게 탐색할 수 있습니다.
+              </p>
+            </aside>
+          </section>
+          <section>
+            <h4>use Native Language</h4>
+            <pre class="language-markup"><code>&lt;header>                                                  &lt;!-- banner landmark -->
+  &lt;h1>ARIA Landmarks Example&lt;/h1>
+&lt;/header>
+&lt;nav>                                                       &lt;!-- navigation landmark -->
+  &lt;ul>...&lt;/ul>
+&lt;/nav>
+&lt;main>                                                     &lt;!-- main landmark -->
+  &lt;h2>Banner Landmark&lt;/h2>
+  &lt;section>                                               &lt;!-- region landmark -->
+    ...
+  &lt;/section>
+&lt;/main>
+&lt;aside>                                                    &lt;!-- complementary landmark -->
+  &lt;h2>Landmarks&lt;/h2>
+&lt;/aside>
+&lt;aside>                                                    &lt;!-- complementary landmark -->
+  &lt;h2>Related W3C Documents&lt;/h2>
+&lt;/aside>
+&lt;footer>                                                   &lt;!-- contentinfo landmark -->
+  Copyright
+&lt;/footer></code></pre>
+            <aside class="notes">
+              ARIA를 적용하기에 앞서 일단 native가 가능하다면 native를 활용할 수 있습니다. <br>
+              HTML5 의 시맨틱 요소들은 이미 암묵적인 role을 가지고 있기 때문에 native로 마크업 하는 
+              것만으로도 랜드마크가 자동으로 적용됩니다.
+            </aside>
+          </section>
+          <section>
+            <h4>Use ARIA Techniques</h4>
+            <pre class="language-markup"><code>&lt;div class="header" <mark>role="banner"</mark>>
+  &lt;h1>ARIA Landmarks Example&lt;/h1>
+&lt;/div>
+&lt;div class="navigation" <mark>role="navigation"</mark>>
+  &lt;ul>&lt;li>&lt;a>...&lt;/a>&lt;/li>...&lt;/ul>
+&lt;/div>
+&lt;div class="main" <mark>role="main"</mark>>
+  &lt;h2>Banner Landmark&lt;/h2>
+  &lt;div class="tab-container" <mark>role="region"</mark> <mark>aria-label="Coding Tequniques"</mark>>
+	  ...
+  &lt;/div>
+&lt;/div>
+&lt;div class="sidebar" <mark>role="complementary"</mark> <mark>aria-labelledby="id3"</mark>>
+  &lt;h2 id="id3">Landmarks&lt;/h2>
+&lt;/div>
+&lt;div class="sidebar" <mark>role="complementary"</mark> <mark>aria-labelledby="id4"</mark>>
+  &lt;h2 id="id4">Related W3c Documents&lt;/h2>
+&lt;/div>
+&lt;div class="footer" <mark>role="contentinfo"</mark>>
+  Copyright
+&lt;/div></code></pre>
+            <aside class="notes">
+              IE 8 등에 대응해야 하는 경우에는, HTML5 semantic markup을 사용할 수가 없죠. 그런 
+              경우에는 이런 식으로 landmark role을 적용해 볼 수 있습니다.
+            </aside>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h3>Tab Contents</h3>
+            <aside class="notes">
+              다음으로 볼 예는 탭 콘텐츠 입니다.
+            </aside>
+          </section>
+          <section>
+            <img src="images/tab-ui.png" alt="3개의 탭 메뉴와 탭 패널이 있는 탭 UI 예제 캡쳐 화면" class="stretch">
+            <aside class="notes">
+              이런거 종종 만드시죠?
+            </aside>
+          </section>
+          <section>
+            <h4>legacy</h4>
+            <pre class="language-markup"><code>&lt;div class="tab-menu">
+  &lt;a href="#tab-panel1">HTML&lt;/a>
+  &lt;a href="#tab-panel2">CSS&lt;/a>
+  &lt;a href="#tab-panel3">JavaScript&lt;/a>
+&lt;/div>
+&lt;div class="tab-panels">
+  &lt;div id="tab-panel1">
+    &lt;h3>HTML&lt;/h3>
+    ...
+  &lt;/div>
+  &lt;div id="tab-panel2">
+    &lt;h3>CSS&lt;/h3>
+    ...
+  &lt;/div>
+  &lt;div id="tab-panel3">
+    &lt;h3>JavaScript&lt;/h3>
+    ...
+  &lt;/div>
+&lt;/div></code></pre>
+            <aside class="notes">
+              예를 들어 이런식으로 마크업 하실거에요? 아니면 각 탭 메뉴 마크업을 패널 안에 두고 
+              CSS로 끌어 올려서 나열시킨다던지.
+              <p>
+                이 경우에는 어떨까요? "탭 메뉴 - 탭 패널"이라는 의미를 전달하는 navtive HTML은 없죠? <br>
+                따라서 이런 경우에는 WAI-ARIA로 의미를 보완해 주는 것이 절실하게 필요해집니다.
+              </p>
+            </aside>
+          </section>
+          <section>
+            <h4 class="heading5">Use ARIA Techniques <small>- add roles</small></h4>
+             <pre class="language-markup"><code>&lt;div class="tab-menu" <mark>role="tablist"</mark>>
+  &lt;a href="#tab-panel1" <mark>role="tab"</mark>>HTML&lt;/a>
+  &lt;a href="#tab-panel2" <mark>role="tab"</mark>>CSS&lt;/a>
+  &lt;a href="#tab-panel3" <mark>role="tab"</mark>>JavaScript&lt;/a>
+&lt;/div>
+&lt;div class="tab-panels">
+  &lt;div id="tab-panel1" <mark>role="tabpanel"</mark>>
+    ... 
+  &lt;/div>
+  &lt;div id="tab-panel2" <mark>role="tabpanel"</mark>>
+    ... 
+  &lt;/div>
+  &lt;div id="tab-panel3" <mark>role="tabpanel"</mark>>
+    ... 
+  &lt;/div>
+&lt;/div></code></pre>
+            <aside class="notes">
+              따라서, 먼저 각 요소들에 적용되어야 하는 역할들을 role 속성을 통해 부여를 합니다.
+            </aside>
+          </section>
+          <section>
+            <h4 class="heading5">Use ARIA Techniques <small>- add properties, states</small></h4>
+             <pre class="language-markup"><code>&lt;div class="tab-menu" role="tablist">
+  &lt;a id="tab1" href="#tab-panel1" role="tab" 
+      <mark>aria-controls="tab-panel1"</mark> <mark>aria-selected="true"</mark>>HTML&lt;/a>
+  &lt;a id="tab2" href="#tab-panel2" role="tab" 
+      <mark>aria-controls="tab-panel2"</mark> <mark>aria-selected="false"</mark>>CSS&lt;/a>
+  &lt;a id="tab3" href="#tab-panel3" role="tab" 
+      <mark>aria-controls="tab-panel3"</mark> <mark>aria-selected="false"</mark>>JavaScript&lt;/a>
+&lt;/div>
+&lt;div class="tab-panels">
+  &lt;div id="tab-panel1" role="tabpanel" 
+         <mark>aria-labelledby="tab1"</mark>>
+    ... 
+  &lt;/div>
+  &lt;div id="tab-panel2" role="tabpanel" 
+         <mark>aria-labelledby="tab2"</mark> <mark>aria-hidden="true"</mark>>
+    ... 
+  &lt;/div>
+  &lt;div id="tab-panel3" role="tabpanel" 
+         <mark>aria-labelledby="tab3"</mark> <mark>aria-hidden="true"</mark>>
+    ... 
+  &lt;/div>
+&lt;/div></code></pre>
+            <aside class="notes">
+              그리고 필요한 속성들, 각 탭 메뉴는 어느 패널의 컨트롤인지, 현재 선택되어 있는지의 상태, 
+              각 탭 패널의 제목이 무엇인지, 현재 노출 되어 있는지 숨겨져 있는지의 상태 등을 적용합니다.
+            </aside>
+          </section>
+          <section>
+            <h4 class="heading5">Use ARIA Technique <small>- developing keyboard interface</small></h4>
+            <table class="keyboard-interaction">
+              <caption>Keyboard Support</caption>
+              <colgroup>
+                <col>
+                <col>
+              </colgroup>
+              <thead>
+                <tr>
+                  <th scope="col">Key</th>
+                  <th scope="col">Function</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row"><kbd>Tab</kbd></th>
+                  <td>
+                    <ul>
+                      <li>when focus moves into the tab list, place focus on active <code>tab</code> element</li>
+                      <li>When the tab list contains the focus, moves focus to the next element in the tab sequence, which is the tabpanel element</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row"><kbd>Right Arrow</kbd></th>
+                  <td>
+                    <ul>
+                      <li>Moves focus to the next tab.</li>
+                      <li>If focus is on the last tab, moves focus to the first tab.</li>
+                      <li>Activates the newly focused tab</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row"><kbd>Left Arrow</kbd></th>
+                  <td>
+                    <ul>
+                      <li>Moves focus to the previous tab.</li>
+                      <li>If focus is on the first tab, moves focus to the last tab.</li>
+                      <li>Activates the newly focused tab</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row"><kbd>Home</kbd></th>
+                  <td>Moves focus to the first tab and activates it</td>
+                </tr>
+                <tr>
+                  <th scope="row"><kbd>End</kbd></th>
+                  <td>Moves focus to the last tab and activates it</td>
+                </tr>
+              </tbody>
+            </table>
+            <aside class="notes">
+              <p>
+                그리고 이제, 키보드 인터랙션을 구현합니다. <br>
+                탭 UI에 필요한 키보드 인터랙션은 이러합니다. 
+              </p>
+              <p>
+                이렇게 구현이 되면, 사용자는 이제 이 콘텐츠가 탭 UI형태의 콘텐츠임을 인지할 수 있게 
+                되고, 따라서 이 콘텐츠를 어떻게 사용해야 하는지를 쉽게 알 수 있게됩니다.
+              </p>
+              <p>
+                그런데, 여기까지 이야기를 하면 이런 질문을 종종 받습니다.
+              </p>
+            </aside>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h2 class="heading4">Should I implement it myself?</h2>
+            <aside class="notes">
+              <p>와... 저걸 직접 구현 해야해?</p>
+            </aside>
+          </section>
+          <section>
+            <h3 class="heading4">Yes, if you can.</h3>
+            <aside class="notes">
+              직접 구현할 수 있으면 좋습니다. 
+            </aside>
+          </section>
+          <section>
+            <img src="images/w3c-practices.png" alt="W3C Authoring Practices 문서 캡쳐 화면" class="stretch"> <br />
+            <a href="https://www.w3.org/TR/wai-aria-practices-1.1/" target="_blank" title="새창으로 열림">WAI-ARIA Authoring Practices 1.1</a>
+            <aside class="notes">
+              <p>
+                W3C WAI-ARIA Authoring Practices 1.1 문서를 보면 각 위젯이나 디자인 패턴에 따라 
+                설명과 예제, 키보드 인터랙션, 적용되어야 하는 WAI-ARIA role, property, state들이 
+                기술 되어 있기 때문에, 직접 만들 수 있는 분은 이를 참고하여 개발해 볼 수 있습니다.
+              </p>
+              <p>
+                그런데 영어라서 보기 어렵다 하는 경우에는,
+              </p>
+            </aside>
+          </section>
+          <section>
+            <img src="images/aria-cover.jpg" alt="예제로 보는 WAI-ARIA 사례집" class="stretch"> <br />
+            <a href="http://www.wah.or.kr/_Upload/pds2/WAI-ARIA%20사례집(온라인판).pdf" target="_blank" title="새창으로 열림">WAI-ARIA 사례집</a>
+            <aside class="notes">
+              <p>
+                작년에 정보화진흥원에서 만든 예제로 보는 WAI-ARIA 사례집도 있습니다. <br>
+                마찬가지로 각 사례별로 어떻게 적용해야 하는지와 자바스크립트 개발을 어떻게 해야 하는지가 
+                절차적으로 기술되어 있으므로 참고하면 좋습니다.
+              </p>              
+              <p>
+                하지만, 직접 구현할 수 없는 경우에는,
+              </p>
+            </aside>
+          </section>
+          <section>
+            <h3 class="heading4">otherwise</h3>
+            <p>
+              you can use jQueryUI, github, wai-aria 사례집, etc...
+            </p>
+            <aside class="notes">
+              다른 이미 만들어져 있는 것들을 활용하실 수가 있습니다.
+            </aside>
+          </section>
+          <section>
+            <img src="images/jquery-ui.png" alt="jQueryUI 아코디언 위젯에 aria가 적용된 것을 코드 상에서 확인 할 수 있다." class="stretch">
+            <aside class="notes">
+              jQueryUI는 WAI-ARIA 사양에 지정된 지침을 따라 개발되어지고 있음을 소개 페이지에서 볼 
+              수 있고, 실제로 코드 상에도 role 및 aria-* 속성들이 적용되어 있는 것을 볼 수 있습니다.
+            </aside>
+          </section>
+          <section>
+            <img src="images/github.png" alt="github에서 accordion wai-aria로 검색한 결과 화면" class="stretch">
+            <aside class="notes">
+              요새 github 많이 사용하시죠? github 에서도 wai-aria와 함께 찾고자 하는 기능을 검색해보시면 
+              몇 개의 코드들을 득템하실 수도 있습니다.
+            </aside>
+          </section>
+          <section>
+            <img src="images/niawa-github.png" alt="정보화진흥원 WAI-ARIA 사례집 코드 수록 github 페이지 화면" class="stretch"> <br>
+            <a href="https://github.com/niawa/ARIA" target="_blank" title="새창으로 열림">NIA github</a>
+            <aside class="notes">
+              아까도 소개했던 예제로 보는 WAI-ARIA 사례집은 인쇄물만 있는 것이 아니라, 코드가 github에 
+              수록이 되어 있고, 일부는 라이브러리 형태로 제작이 되어 있기 때문에 손쉽게 가져다 
+              사용하실 수 있습니다.
+            </aside>
+          </section>
+        </section>
+        <section>
+          <h2 class="heading4">References</h2>
+          <ul>
+            <li><a href="https://www.w3.org/TR/wai-aria" target="_blank" title="새창으로 열림">WAI-ARIA Specification</a></li>
+            <li><a href="https://www.w3.org/TR/using-aria" target="_blank" title="새창으로 열림">Using ARIA</a></li>
+            <li><a href="https://www.w3.org/TR/wai-aria-practices" target="_blank" title="새창으로 열림">WAI-ARIA Authoring Practices</a></li>
+            <li><a href="http://www.html5accessibility.com" target="_blank" title="새창으로 열림">HTML5 Accessibility</a></li>
+          </ul>
+          <aside class="notes">
+            WAI-ARIA에 대해 좀 더 자세히 알고 싶다면 이 링크들의 문서를 읽어보시면 많은 도움이 
+            될거라 생각됩니다.
+          </aside>
+        </section>
+        <section>
+          <h2>감사합니다.</h2>
+          <p data-align="right">
+            https://mulder21c.github.io/seminar/20171206 <br />
+            publisher@publisher.name
+          </p>
+        </section>
+      </div>
+    </div>
 
-		<script src="lib/js/head.min.js"></script>
-		<script src="js/reveal.js"></script>
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
 
-		<script>
-			// More info about config & dependencies:
-			// - https://github.com/hakimel/reveal.js#configuration
-			// - https://github.com/hakimel/reveal.js#dependencies
-			Reveal.initialize({
-				dependencies: [
-					{ src: 'plugin/markdown/marked.js' },
-					{ src: 'plugin/markdown/markdown.js' },
-					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/prismjs/prism.min.js'}
-				]
-			});
-		</script>
-	</body>
+    <script>
+      // More info about config & dependencies:
+      // - https://github.com/hakimel/reveal.js#configuration
+      // - https://github.com/hakimel/reveal.js#dependencies
+      Reveal.initialize({
+        keyboard: {
+          40 : function(){
+            Reveal.next();
+          },
+          38 : function(){
+            Reveal.prev();
+          }
+        },
+        dependencies: [
+          { src: 'plugin/markdown/marked.js' },
+          { src: 'plugin/markdown/markdown.js' },
+          { src: 'plugin/notes/notes.js', async: true },
+          { src: 'plugin/prismjs/prism.min.js'}
+        ]
+      });
+    </script>
+  </body>
 </html>

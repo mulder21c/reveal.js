@@ -1,1238 +1,372 @@
-# reveal.js [![Build Status](https://travis-ci.org/hakimel/reveal.js.svg?branch=master)](https://travis-ci.org/hakimel/reveal.js) <a href="https://slides.com?ref=github"><img src="https://s3.amazonaws.com/static.slid.es/images/slides-github-banner-320x40.png?1" alt="Slides" width="160" height="20"></a>
+# WAI-ARIA Best Practices
 
-A framework for easily creating beautiful presentations using HTML. [Check out the live demo](http://revealjs.com/).
+## What is WAI-ARIA
 
-reveal.js comes with a broad range of features including [nested slides](https://github.com/hakimel/reveal.js#markup), [Markdown contents](https://github.com/hakimel/reveal.js#markdown), [PDF export](https://github.com/hakimel/reveal.js#pdf-export), [speaker notes](https://github.com/hakimel/reveal.js#speaker-notes) and a [JavaScript API](https://github.com/hakimel/reveal.js#api). There's also a fully featured visual editor and platform for sharing reveal.js presentations at [slides.com](https://slides.com?ref=github).
+WAI-ARIA는 Web Accessibility Initiative - Accessible Rich Internet Application 의 약어로 
+W3C의 WAI에서 제정한 RIA의 접근성 보장을 위한 기술 규격입니다.
 
-## Table of contents
-- [Online Editor](#online-editor)
-- [Instructions](#instructions)
-  - [Markup](#markup)
-  - [Markdown](#markdown)
-  - [Element Attributes](#element-attributes)
-  - [Slide Attributes](#slide-attributes)
-- [Configuration](#configuration)
-- [Presentation Size](#presentation-size)
-- [Dependencies](#dependencies)
-- [Ready Event](#ready-event)
-- [Auto-sliding](#auto-sliding)
-- [Keyboard Bindings](#keyboard-bindings)
-- [Touch Navigation](#touch-navigation)
-- [Lazy Loading](#lazy-loading)
-- [API](#api)
-  - [Slide Changed Event](#slide-changed-event)
-  - [Presentation State](#presentation-state)
-  - [Slide States](#slide-states)
-  - [Slide Backgrounds](#slide-backgrounds)
-  - [Parallax Background](#parallax-background)
-  - [Slide Transitions](#slide-transitions)
-  - [Internal links](#internal-links)
-  - [Fragments](#fragments)
-  - [Fragment events](#fragment-events)
-  - [Code syntax highlighting](#code-syntax-highlighting)
-  - [Slide number](#slide-number)
-  - [Overview mode](#overview-mode)
-  - [Fullscreen mode](#fullscreen-mode)
-  - [Embedded media](#embedded-media)
-  - [Stretching elements](#stretching-elements)
-  - [postMessage API](#postmessage-api)
-- [PDF Export](#pdf-export)
-- [Theming](#theming)
-- [Speaker Notes](#speaker-notes)
-  - [Share and Print Speaker Notes](#share-and-print-speaker-notes)
-  - [Server Side Speaker Notes](#server-side-speaker-notes)
-- [Multiplexing](#multiplexing)
-  - [Master presentation](#master-presentation)
-  - [Client presentation](#client-presentation)
-  - [Socket.io server](#socketio-server)
-- [MathJax](#mathjax)
-- [Installation](#installation)
-  - [Basic setup](#basic-setup)
-  - [Full setup](#full-setup)
-  - [Folder Structure](#folder-structure)
-- [License](#license)
+WAI-ARIA는 2006년 First Working Draft 문서가 등록되어 2014년 3월에 1.0버전이 REC버전으로 등록된 후, 
+현재 1.1 버전이 PR버전으로 올라가 있고, 최신 권고안을 볼 수 있는 [대표 주소](https://www.w3.org/TR/wai-aria/)로 
+들어가도 이 버전으로 접근이 됩니다. 즉, 현재는 1.1이 최종 권고안이라고 해도 될 것 같습니다.
 
-#### More reading
-- [Changelog](https://github.com/hakimel/reveal.js/releases): Up-to-date version history.
-- [Examples](https://github.com/hakimel/reveal.js/wiki/Example-Presentations): Presentations created with reveal.js, add your own!
-- [Browser Support](https://github.com/hakimel/reveal.js/wiki/Browser-Support): Explanation of browser support and fallbacks.
-- [Plugins](https://github.com/hakimel/reveal.js/wiki/Plugins,-Tools-and-Hardware): A list of plugins that can be used to extend reveal.js.
+## Why use?
 
-## Online Editor
+> supplement for native language semantics, but not a replacement
 
-Presentations are written using HTML or Markdown but there's also an online editor for those of you who prefer a graphical interface. Give it a try at [https://slides.com](https://slides.com?ref=github).
+W3C의 WAI-ARIA 명세에 네이티브 언어의 의미론을 보완하기 위한 것이라 기술하고 있습니다. 
+그리고 추가로 교체가 아니라고 기술되어 있는데요,  이것은 WAI-ARIA가 native language의 의미를 
+교체하는데 사용하는 것이 아니라는 이 점을 이야기 하구요, 이를 잘 기억하고 있어야 WAI-AIRA를 오용하는 
+일을 줄일 수 있습니다. 가능은 하나 의도와는 맞지 않다라는 것입니다.
 
+## Role, Property, State
 
-## Instructions
+WAI-ARIA는 이 세 가지를 통해 정보를 전달하게 됩니다.
 
-### Markup
+### Role
 
-Here's a barebones example of a fully working reveal.js presentation:
+> Attaching a role gives assistive technologies information about how to handle each element
+
+WAI-ARIA에서 Role을 부여하는 것은 각 요소가 어떤 역할이다라는 것을 부여하여 스크린리더 같은 보조 
+기술에 각 요소를 어떻게 처리해야 한다는 정보를 제공합니다. 
+
+예를 들어, `role="button"`을 주었다면 이 요소는 버튼으로서 처리를 해야 한다는 정보를 제공하는 것입니다.
+
+role을 적용하는 것은 tag에 attribute를 적용하는 방법과 동일합니다.
+
 ```html
-<html>
-	<head>
-		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/white.css">
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
-			</div>
-		</div>
-		<script src="js/reveal.js"></script>
-		<script>
-			Reveal.initialize();
-		</script>
-	</body>
-</html>
+<tag role="keyword">
 ```
 
-The presentation markup hierarchy needs to be `.reveal > .slides > section` where the `section` represents one slide and can be repeated indefinitely. If you place multiple `section` elements inside of another `section` they will be shown as vertical slides. The first of the vertical slides is the "root" of the others (at the top), and will be included in the horizontal sequence. For example:
+예를 들어, &lt;div> 태그에 navigation role을 적용하기 위해서 
 
 ```html
-<div class="reveal">
-	<div class="slides">
-		<section>Single Horizontal Slide</section>
-		<section>
-			<section>Vertical Slide 1</section>
-			<section>Vertical Slide 2</section>
-		</section>
-	</div>
+<div role="navigation">
+```
+
+과 같이 사용합니다.
+
+role 에 사용될 수 있는 keyword 목록은 [WAI-ARIA 명세](https://www.w3.org/TR/wai-aria/#x5-4-definition-of-roles)에서 
+보실 수 있습니다.
+
+### Property, State
+
+Property와 State 즉, 속성과 상태는 "객체에 대한 특정한 정보를 전달하고, 역할의 특징에 대한 정의의 
+일부를 형성합니다." 라고 W3C에 나와 있습니다. 
+
+쉽게 말해, 속성과 상태는 해당 객체에 대한 속성이나 현재 상태를 부여합니다. 예를 들어 객체의 레이블을 
+정의하거나, 하위 메뉴를 가지고 있는지의 속성을 설정하거나, 현재 펼쳐진 상태인지 닫혀진 상태인지 등을 
+설정하는데 사용할 수 있습니다. 
+
+property, state는 `aria-` prefix를 사용하여 attribute로 적용합니다.
+
+```html
+<tag aria-*="value">
+```
+
+예를 들어, button에 펼침 상태를 부여하고, <var>sect1</var>이라는 id를 가진 객체에 대한 컨트롤이라는 
+속성을 부여하기 위해
+
+```html
+<button aria-expanded="false" aria-controls="sect1">
+```
+
+과 같이 사용할 수 있습니다.
+
+## How to improve accessibility with WAI-ARIA
+
+### step 1. use native HTML
+
+정말 불가능한 경우가 아닌 이상 native HTML을 사용하여 semantic markup을 하는 것이 시작이라 할 수 
+있습니다.
+
+앞서 WAI-ARIA를 왜 사용해야 하는가를 이야기 할 때, 네이티브 언어의 의미론을 보완하기 위한 것이라고 
+했는데, WAI-ARIA의 목적이 보완이기 때문에 native HTML을 사용해야하는 것이 가장 기본이됩니다.
+
+#### then, when use WAI-ARIA?
+
+- 기능이 HTML로 가능하지만 아직 구현되지 않았거나, 구현은 되어 있지만 브라우저에서 접근성 지원이
+되지 않은 경우 (ref. [HTML5 Accessibility](http://www.html5accessibility.com/))
+- 커스텀 컴포넌트와 같이 시각적 디자인의 이유로 특정 네이티브 요소를 사용할 수 없는 경우
+- 기능이 현재 HTML로 사용할 수 없는 경우
+
+### step 2. Add ARIA
+
+native HTML를 사용한 후, 이것만으로 제공되기 어려운 정보들을 ARIA를 추가하여 더 향상된 접근성을 
+제공합니다.
+
+#### inline or via Script?
+
+ARIA role, arai-* 속성의 적용 시점(인라인 혹은 스크립트를 통해)에 대해, W3C에서는 크게 다음의 두 
+가지 기준을 제공하고 있습니다.
+
+- ARIA role이나 aria-* 속성이 인터랙션을 제공하는데 스크립트에 의존하지 않는다면 inline으로
+- 콘텐츠와 인터랙션이 스크립트 활성화 브라우징 콘텍트스에서만 지원되는 경우에도, inline으로 하는 것이 
+안전하며
+- ARIA role이나 aria-* 속성이 스크립트를 통해 추가,변경,제거 되어야 하는 경우에는 스크립트를 통해서
+
+### step3. developing keyboard interface
+
+그리고 중요한 것이 바로 키보드 인터페이스를 개발해야 하는 것입니다.
+
+- 모든 대화형 aria 컨트롤들은 키보드로 사용가능해야 하고
+- 클릭 할 수 있거나 탭, 드래그, 드롭, 슬라이드, 스크롤 할 수 있다면, 키보드를 사용해서 동등한 수준의 
+행위를 할 수 있어야 하며
+- 대화형 위젯은 표준 키 스트로크나 키 스트로크 조합에 응답하도록 스크립팅 되어야 합니다.
+
+## Best Practices
+
+### Landmark
+
+구현할 수있는 가장 쉬운 ARIA 기능 중 하나이자 스크린리더 사용자에게 중요한 즉각적인 이점을 제공하는 
+기능 중 하나가 랜드 마크 역할. 
+
+한 페이지에서 많은 정보를 보여주어야 하는 포털 사이트 같은 경우에 단순히 반복 영역 건너뛰기 외에, 
+여러 개의 바로가기 링크를 Skip Navigation에 담아서 보여주는 케이스가 종종 있습니다.
+
+<img src="images/skip-nav.png" alt="여러 개의 바로가기 링크 제공 사례 캡쳐 화면" width="700">
+
+기존 방식의 마크업
+
+```html
+<div class="header">
+  <h1>ARIA Landmarks Example</h1>
+</div>
+<div class="navigation">
+  <ul><li><a>...</a></li>...</ul>
+</div>
+<div class="main">
+  <h2>Banner Landmark</h2>
+  <div class="tab-container">
+	  ...
+  </div>
+</div>
+<div class="sidebar">
+  <h2>Landmarks</h2>
+</div>
+<div class="sidebar">
+  <h2>Related W3C Documents</h2>
+</div>
+<div class="footer">
+  Copyright
 </div>
 ```
 
-### Markdown
+landmark role을 이용하면 조금 더 세련된 방법으로 각 영역으로 바로가기를 제공할 수 있습니다.
 
-It's possible to write your slides using Markdown. To enable Markdown, add the `data-markdown` attribute to your `<section>` elements and wrap the contents in a `<textarea data-template>` like the example below. You'll also need to add the `plugin/markdown/marked.js` and `plugin/markdown/markdown.js` scripts (in that order) to your HTML file.
+현재 Sense Reader, NVDA, JAWA, Window Eyes, Voiceover 등의 주요 스크린리더기들에서 랜드마크 탐색 
+단축키가 제공되고 있어, 언제 어느 곳에 위치해있었든지 랜드마크를 기준으로 컨텐츠를 손쉽게 탐색할 수 
+있습니다.
 
-This is based on [data-markdown](https://gist.github.com/1343518) from [Paul Irish](https://github.com/paulirish) modified to use [marked](https://github.com/chjj/marked) to support [GitHub Flavored Markdown](https://help.github.com/articles/github-flavored-markdown). Sensitive to indentation (avoid mixing tabs and spaces) and line breaks (avoid consecutive breaks).
+<img src="images/landmark.png" alt="랜드마크 제공 사례  캡쳐 화면" width="500">
 
-```html
-<section data-markdown>
-	<textarea data-template>
-		## Page title
+ARIA를 적용하기에 앞서 일단 native가 가능하다면 native를 활용할 수 있습니다. 
 
-		A paragraph with some text and a [link](http://hakim.se).
-	</textarea>
-</section>
-```
+HTML5 의 시맨틱 요소들은 이미 암묵적인 role을 가지고 있기 때문에 native로 마크업 하는 것만으로도 
+랜드마크가 자동으로 적용됩니다.
 
-#### External Markdown
-
-You can write your content as a separate file and have reveal.js load it at runtime. Note the separator arguments which determine how slides are delimited in the external file: the `data-separator` attribute defines a regular expression for horizontal slides (defaults to `^\r?\n---\r?\n$`, a newline-bounded horizontal rule)  and `data-separator-vertical` defines vertical slides (disabled by default). The `data-separator-notes` attribute is a regular expression for specifying the beginning of the current slide's speaker notes (defaults to `note:`). The `data-charset` attribute is optional and specifies which charset to use when loading the external file.
-
-When used locally, this feature requires that reveal.js [runs from a local web server](#full-setup).  The following example customises all available options:
+**Native Language를 사용한 방법**
 
 ```html
-<section data-markdown="example.md"  
-         data-separator="^\n\n\n"  
-         data-separator-vertical="^\n\n"  
-         data-separator-notes="^Note:"  
-         data-charset="iso-8859-15">
-</section>
+<header>                                                  <!-- banner landmark -->
+  <h1>ARIA Landmarks Example</h1>
+</header>
+<nav>                                                     <!-- navigation landmark -->
+  <ul>...</ul>
+</nav>
+<main>                                                    <!-- main landmark -->
+  <h2>Banner Landmark</h2>
+  <section>                                               <!-- region landmark -->
+    ...
+  </section>
+</main>
+<aside>                                                   <!-- complementary landmark -->
+  <h2>Landmarks</h2>
+</aside>
+<aside>                                                   <!-- complementary landmark -->
+  <h2>Related W3C Documents</h2>
+</aside>
+<footer>                                                  <!-- contentinfo landmark -->
+  Copyright
+</footer>
 ```
 
-#### Element Attributes
+만일, IE 8 등에 대응해야 하는 경우에는, HTML5 semantic markup을 사용할 수가 없기 때문에, 그런 
+경우에는 아래와 같이 landmark role을 적용해 볼 수 있습니다.
 
-Special syntax (in html comment) is available for adding attributes to Markdown elements. This is useful for fragments, amongst other things.
+**Use ARIA Techniques**
 
 ```html
-<section data-markdown>
-	<script type="text/template">
-		- Item 1 <!-- .element: class="fragment" data-fragment-index="2" -->
-		- Item 2 <!-- .element: class="fragment" data-fragment-index="1" -->
-	</script>
-</section>
+<div class="header" role="banner">
+  <h1>ARIA Landmarks Example</h1>
+</div>
+<div class="navigation" role="navigation">
+  <ul><li><a>...</a></li>...</ul>
+</div>
+<div class="main" role="main">
+  <h2>Banner Landmark</h2>
+  <div class="tab-container" role="region" aria-label="Coding Tequniques">
+	  ...
+  </div>
+</div>
+<div class="sidebar" role="complementary" aria-labelledby="id3">
+  <h2 id="id3">Landmarks</h2>
+</div>
+<div class="sidebar" role="complementary" aria-labelledby="id4">
+  <h2 id="id4">Related W3c Documents</h2>
+</div>
+<div class="footer" role="contentinfo">
+  Copyright
+</div>
 ```
 
-#### Slide Attributes
+### Tab Contents
 
-Special syntax (in html comment) is available for adding attributes to the slide `<section>` elements generated by your Markdown.
+![3개의 탭 메뉴와 탭 패널이 있는 탭 UI 예제 캡쳐 화면](images/tab-ui.png)
+
+종종 사용되는 동적 콘텐츠의 예로 탭 콘텐츠를 들 수 있습니다.
+
+기존 방식의 마크업 예
 
 ```html
-<section data-markdown>
-	<script type="text/template">
-	<!-- .slide: data-background="#ff0000" -->
-		Markdown content
-	</script>
-</section>
+<div class="tab-menu">
+  <a href="#tab-panel1">HTML</a>
+  <a href="#tab-panel2">CSS</a>
+  <a href="#tab-panel3">JavaScript</a>
+</div>
+<div class="tab-panels">
+  <div id="tab-panel1">
+    <h3>HTML</h3>
+    ...
+  </div>
+  <div id="tab-panel2">
+    <h3>CSS</h3>
+    ...
+  </div>
+  <div id="tab-panel3">
+    <h3>JavaScript</h3>
+    ...
+  </div>
+</div>
 ```
 
-#### Configuring *marked*
+이러한 경우, "탭 메뉴 - 탭 패널"이라는 의미를 전달하는 navtive HTML은 없기 때문에 native 언어만으로는
+충분한 의미를 전달할 수 없고 WAI-ARIA로 의미를 보완해 주는 것이 절실하게 필요해집니다.
 
-We use [marked](https://github.com/chjj/marked) to parse Markdown. To customise marked's rendering, you can pass in options when [configuring Reveal](#configuration):
-
-```javascript
-Reveal.initialize({
-	// Options which are passed into marked
-	// See https://github.com/chjj/marked#options-1
-	markdown: {
-		smartypants: true
-	}
-});
-```
-
-### Configuration
-
-At the end of your page you need to initialize reveal by running the following code. Note that all config values are optional and will default as specified below.
-
-```javascript
-Reveal.initialize({
-
-	// Display presentation control arrows
-	controls: true,
-
-	// Help the user learn the controls by providing hints, for example by
-	// bouncing the down arrow when they first encounter a vertical slide
-	controlsTutorial: true,
-
-	// Determines where controls appear, "edges" or "bottom-right"
-	controlsLayout: 'bottom-right',
-
-	// Visibility rule for backwards navigation arrows; "faded", "hidden"
-	// or "visible"
-	controlsBackArrows: 'faded',
-
-	// Display a presentation progress bar
-	progress: true,
-
-	// Set default timing of 2 minutes per slide
-	defaultTiming: 120,
-
-	// Display the page number of the current slide
-	slideNumber: false,
-
-	// Push each slide change to the browser history
-	history: false,
-
-	// Enable keyboard shortcuts for navigation
-	keyboard: true,
-
-	// Enable the slide overview mode
-	overview: true,
-
-	// Vertical centering of slides
-	center: true,
-
-	// Enables touch navigation on devices with touch input
-	touch: true,
-
-	// Loop the presentation
-	loop: false,
-
-	// Change the presentation direction to be RTL
-	rtl: false,
-
-	// Randomizes the order of slides each time the presentation loads
-	shuffle: false,
-
-	// Turns fragments on and off globally
-	fragments: true,
-
-	// Flags if the presentation is running in an embedded mode,
-	// i.e. contained within a limited portion of the screen
-	embedded: false,
-
-	// Flags if we should show a help overlay when the questionmark
-	// key is pressed
-	help: true,
-
-	// Flags if speaker notes should be visible to all viewers
-	showNotes: false,
-
-	// Global override for autoplaying embedded media (video/audio/iframe)
-	// - null: Media will only autoplay if data-autoplay is present
-	// - true: All media will autoplay, regardless of individual setting
-	// - false: No media will autoplay, regardless of individual setting
-	autoPlayMedia: null,
-
-	// Number of milliseconds between automatically proceeding to the
-	// next slide, disabled when set to 0, this value can be overwritten
-	// by using a data-autoslide attribute on your slides
-	autoSlide: 0,
-
-	// Stop auto-sliding after user input
-	autoSlideStoppable: true,
-
-	// Use this method for navigation when auto-sliding
-	autoSlideMethod: Reveal.navigateNext,
-
-	// Enable slide navigation via mouse wheel
-	mouseWheel: false,
-
-	// Hides the address bar on mobile devices
-	hideAddressBar: true,
-
-	// Opens links in an iframe preview overlay
-	previewLinks: false,
-
-	// Transition style
-	transition: 'slide', // none/fade/slide/convex/concave/zoom
-
-	// Transition speed
-	transitionSpeed: 'default', // default/fast/slow
-
-	// Transition style for full page slide backgrounds
-	backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
-
-	// Number of slides away from the current that are visible
-	viewDistance: 3,
-
-	// Parallax background image
-	parallaxBackgroundImage: '', // e.g. "'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg'"
-
-	// Parallax background size
-	parallaxBackgroundSize: '', // CSS syntax, e.g. "2100px 900px"
-
-	// Number of pixels to move the parallax background per slide
-	// - Calculated automatically unless specified
-	// - Set to 0 to disable movement along an axis
-	parallaxBackgroundHorizontal: null,
-	parallaxBackgroundVertical: null,
-
-	// The display mode that will be used to show slides
-	display: 'block'
-
-});
-```
-
-
-The configuration can be updated after initialization using the ```configure``` method:
-
-```javascript
-// Turn autoSlide off
-Reveal.configure({ autoSlide: 0 });
-
-// Start auto-sliding every 5s
-Reveal.configure({ autoSlide: 5000 });
-```
-
-
-### Presentation Size
-
-All presentations have a normal size, that is the resolution at which they are authored. The framework will automatically scale presentations uniformly based on this size to ensure that everything fits on any given display or viewport.
-
-See below for a list of configuration options related to sizing, including default values:
-
-```javascript
-Reveal.initialize({
-
-	...
-
-	// The "normal" size of the presentation, aspect ratio will be preserved
-	// when the presentation is scaled to fit different resolutions. Can be
-	// specified using percentage units.
-	width: 960,
-	height: 700,
-
-	// Factor of the display size that should remain empty around the content
-	margin: 0.1,
-
-	// Bounds for smallest/largest possible scale to apply to content
-	minScale: 0.2,
-	maxScale: 1.5
-
-});
-```
-
-If you wish to disable this behavior and do your own scaling (e.g. using media queries), try these settings:
-
-```javascript
-Reveal.initialize({
-
-	...
-
-	width: "100%",
-	height: "100%",
-	margin: 0,
-	minScale: 1,
-	maxScale: 1
-});
-```
-
-### Dependencies
-
-Reveal.js doesn't _rely_ on any third party scripts to work but a few optional libraries are included by default. These libraries are loaded as dependencies in the order they appear, for example:
-
-```javascript
-Reveal.initialize({
-	dependencies: [
-		// Cross-browser shim that fully implements classList - https://github.com/eligrey/classList.js/
-		{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
-
-		// Interpret Markdown in <section> elements
-		{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-		{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-
-		// Syntax highlight for <code> elements
-		{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
-
-		// Zoom in and out with Alt+click
-		{ src: 'plugin/zoom-js/zoom.js', async: true },
-
-		// Speaker notes
-		{ src: 'plugin/notes/notes.js', async: true },
-
-		// MathJax
-		{ src: 'plugin/math/math.js', async: true }
-	]
-});
-```
-
-You can add your own extensions using the same syntax. The following properties are available for each dependency object:
-- **src**: Path to the script to load
-- **async**: [optional] Flags if the script should load after reveal.js has started, defaults to false
-- **callback**: [optional] Function to execute when the script has loaded
-- **condition**: [optional] Function which must return true for the script to be loaded
-
-To load these dependencies, reveal.js requires [head.js](http://headjs.com/) *(a script loading library)* to be loaded before reveal.js.
-
-### Ready Event
-
-A 'ready' event is fired when reveal.js has loaded all non-async dependencies and is ready to start navigating. To check if reveal.js is already 'ready' you can call `Reveal.isReady()`.
-
-```javascript
-Reveal.addEventListener( 'ready', function( event ) {
-	// event.currentSlide, event.indexh, event.indexv
-} );
-```
-
-Note that we also add a `.ready` class to the `.reveal` element so that you can hook into this with CSS.
-
-### Auto-sliding
-
-Presentations can be configured to progress through slides automatically, without any user input. To enable this you will need to tell the framework how many milliseconds it should wait between slides:
-
-```javascript
-// Slide every five seconds
-Reveal.configure({
-  autoSlide: 5000
-});
-```
-When this is turned on a control element will appear that enables users to pause and resume auto-sliding. Alternatively, sliding can be paused or resumed by pressing »a« on the keyboard. Sliding is paused automatically as soon as the user starts navigating. You can disable these controls by specifying ```autoSlideStoppable: false``` in your reveal.js config.
-
-You can also override the slide duration for individual slides and fragments by using the ```data-autoslide``` attribute:
+**Use ARIA Techniques - Add role**
 
 ```html
-<section data-autoslide="2000">
-	<p>After 2 seconds the first fragment will be shown.</p>
-	<p class="fragment" data-autoslide="10000">After 10 seconds the next fragment will be shown.</p>
-	<p class="fragment">Now, the fragment is displayed for 2 seconds before the next slide is shown.</p>
-</section>
+<div class="tab-menu" role="tablist">
+  <a href="#tab-panel1" role="tab">HTML</a>
+  <a href="#tab-panel2" role="tab">CSS</a>
+  <a href="#tab-panel3" role="tab">JavaScript</a>
+</div>
+<div class="tab-panels">
+  <div id="tab-panel1" role="tabpanel">
+    ... 
+  </div>
+  <div id="tab-panel2" role="tabpanel">
+    ... 
+  </div>
+  <div id="tab-panel3" role="tabpanel">
+    ... 
+  </div>
+</div>
 ```
 
-To override the method used for navigation when auto-sliding, you can specify the ```autoSlideMethod``` setting. To only navigate along the top layer and ignore vertical slides, set this to ```Reveal.navigateRight```.
+먼저 각 요소들에 적용되어야 하는 역할들을 role 속성을 통해 부여 합니다. <br>
+탭 메뉴를 감싸는 요소에는 `role="tablist"`를, 각 탭 메뉴에는 `role="tab"`을, 탭 패널에 해당하는 
+요소들에는 `role="tabpaner"`을 적용합니다.
 
-Whenever the auto-slide mode is resumed or paused the ```autoslideresumed``` and ```autoslidepaused``` events are fired.
-
-
-### Keyboard Bindings
-
-If you're unhappy with any of the default keyboard bindings you can override them using the ```keyboard``` config option:
-
-```javascript
-Reveal.configure({
-  keyboard: {
-    13: 'next', // go to the next slide when the ENTER key is pressed
-    27: function() {}, // do something custom when ESC is pressed
-    32: null // don't do anything when SPACE is pressed (i.e. disable a reveal.js default binding)
-  }
-});
-```
-
-### Touch Navigation
-
-You can swipe to navigate through a presentation on any touch-enabled device. Horizontal swipes change between horizontal slides, vertical swipes change between vertical slides. If you wish to disable this you can set the `touch` config option to false when initializing reveal.js.
-
-If there's some part of your content that needs to remain accessible to touch events you'll need to highlight this by adding a `data-prevent-swipe` attribute to the element. One common example where this is useful is elements that need to be scrolled.
-
-
-### Lazy Loading
-
-When working on presentation with a lot of media or iframe content it's important to load lazily. Lazy loading means that reveal.js will only load content for the few slides nearest to the current slide. The number of slides that are preloaded is determined by the `viewDistance` configuration option.
-
-To enable lazy loading all you need to do is change your "src" attributes to "data-src" as shown below. This is supported for image, video, audio and iframe elements. Lazy loaded iframes will also unload when the containing slide is no longer visible.
+**Use ARIA Techniques - add properties, states**
 
 ```html
-<section>
-  <img data-src="image.png">
-  <iframe data-src="http://hakim.se"></iframe>
-  <video>
-    <source data-src="video.webm" type="video/webm" />
-    <source data-src="video.mp4" type="video/mp4" />
-  </video>
-</section>
+<div class="tab-menu" role="tablist">
+  <a id="tab1" href="#tab-panel1" role="tab" 
+      aria-controls="tab-panel1" aria-selected="true">HTML</a>
+  <a id="tab2" href="#tab-panel2" role="tab" 
+      aria-controls="tab-panel2" aria-selected="false">CSS</a>
+  <a id="tab3" href="#tab-panel3" role="tab" 
+      aria-controls="tab-panel3" aria-selected="false">JavaScript</a>
+</div>
+<div class="tab-panels">
+  <div id="tab-panel1" role="tabpanel" 
+         aria-labelledby="tab1">
+    ... 
+  </div>
+  <div id="tab-panel2" role="tabpanel" 
+         aria-labelledby="tab2" aria-hidden="true">
+    ... 
+  </div>
+  <div id="tab-panel3" role="tabpanel" 
+         aria-labelledby="tab3" aria-hidden="true">
+    ... 
+  </div>
+</div>
 ```
+필요한 속성들과 상태 &mdash; 각 탭 메뉴는 어느 패널의 컨트롤인지, 현재 선택되어 있는지의 상태, 
+각 탭 패널의 제목이 무엇인지, 현재 노출 되어 있는지 숨겨져 있는지의 상태 등을 추가로 적용합니다.
 
+**Use ARIA Techniques - developing keyboard interface**
 
-### API
+이제, 키보드 인터랙션을 구현합니다. 탭 UI에 필요한 키보드 인터랙션은 다음과 같습니다. 
 
-The ``Reveal`` object exposes a JavaScript API for controlling navigation and reading state:
+Keyboard Supoort
 
-```javascript
-// Navigation
-Reveal.slide( indexh, indexv, indexf );
-Reveal.left();
-Reveal.right();
-Reveal.up();
-Reveal.down();
-Reveal.prev();
-Reveal.next();
-Reveal.prevFragment();
-Reveal.nextFragment();
+|     Key     |	Function |
+|:-----------:|:--------|
+| <kbd>Tab</kbd> | <ul><li>when focus moves into the tab list, place focus on active <code>tab</code> element</li><li>When the tab list contains the focus, moves focus to the next element in the tab sequence, which is the tabpanel element</li></ul> |
+| <kbd>Right Arrow</kbd> | <ul><li>Moves focus to the next tab.</li><li>If focus is on the last tab, moves focus to the first tab.</li><li>Activates the newly focused tab</li></ul> |
+| <kbd>Left Arrow</kbd> | <ul><li>Moves focus to the previous tab.</li><li>If focus is on the first tab, moves focus to the last tab.</li><li>Activates the newly focused tab</li></ul> |
+| <kbd>Home</kbd> | Moves focus to the first tab and activates it |
+| <kbd>End</kbd> | Moves focus to the last tab and activates it |
 
-// Randomize the order of slides
-Reveal.shuffle();
+이렇게 구현이 되면, 사용자는 이제 이 콘텐츠가 탭 UI형태의 콘텐츠임을 인지할 수 있게 되고, 
+따라서 이 콘텐츠를 어떻게 사용해야 하는지를 쉽게 알 수 있게됩니다.
 
-// Toggle presentation states, optionally pass true/false to force on/off
-Reveal.toggleOverview();
-Reveal.togglePause();
-Reveal.toggleAutoSlide();
+## Should I implement it myself?
 
-// Shows a help overlay with keyboard shortcuts, optionally pass true/false
-// to force on/off
-Reveal.toggleHelp();
+이를 직접 구현해야 하느냐라는 질문은 종종 받게 됩니다. 
 
-// Change a config value at runtime
-Reveal.configure({ controls: true });
+### Yes, if you can.
 
-// Returns the present configuration options
-Reveal.getConfig();
+직접 구현할 수 있으면 좋습니다. 
 
-// Fetch the current scale of the presentation
-Reveal.getScale();
+[WAI-ARIA Authoring Practices 1.1](https://www.w3.org/TR/wai-aria-practices-1.1) 문서에는 아래 화면과 
+같이 각 위젯이나 디자인 패턴에 따라 설명과 예제, 키보드 인터랙션, 적용되어야 하는 WAI-ARIA role, 
+property, state들이 기술 되어 있기 때문에, 직접 만들 수 있는 분은 이를 참고하여 개발해 볼 수 있습니다.
 
-// Retrieves the previous and current slide elements
-Reveal.getPreviousSlide();
-Reveal.getCurrentSlide();
+![W3C Authoring Practices 문서 캡쳐 화면](images/w3c-practices.png)
 
-Reveal.getIndices();        // { h: 0, v: 0 } }
-Reveal.getPastSlideCount();
-Reveal.getProgress();       // (0 == first slide, 1 == last slide)
-Reveal.getSlides();         // Array of all slides
-Reveal.getTotalSlides();    // total number of slides
+하지만 이 문서가 영어라서 보기 어렵다 하는 경우에는,
 
-// Returns the speaker notes for the current slide
-Reveal.getSlideNotes();
+작년에 정보화진흥원에서 만든 예제로 보는 WAI-ARIA 사례집도 있습니다. <br>
+마찬가지로 각 사례별로 어떻게 적용해야 하는지와 자바스크립트 개발을 어떻게 해야 하는지가 절차적으로 
+기술되어 있으므로 참고하면 좋습니다.
 
-// State checks
-Reveal.isFirstSlide();
-Reveal.isLastSlide();
-Reveal.isOverview();
-Reveal.isPaused();
-Reveal.isAutoSliding();
-```
+<img src="images/aria-cover.jpg" alt="예제로 보는 WAI-ARIA 사례집" width="400">
 
-### Slide Changed Event
+### otherwise
 
-A 'slidechanged' event is fired each time the slide is changed (regardless of state). The event object holds the index values of the current slide as well as a reference to the previous and current slide HTML nodes.
+하지만, 직접 구현할 수 없는 경우에는 다른 이미 만들어져 있는 것들을 활용하실 수가 있습니다.
 
-Some libraries, like MathJax (see [#226](https://github.com/hakimel/reveal.js/issues/226#issuecomment-10261609)), get confused by the transforms and display states of slides. Often times, this can be fixed by calling their update or render function from this callback.
+![jQueryUI 아코디언 위젯에 aria가 적용된 것을 코드 상에서 확인 할 수 있다.](images/jquery-ui.png)
 
-```javascript
-Reveal.addEventListener( 'slidechanged', function( event ) {
-	// event.previousSlide, event.currentSlide, event.indexh, event.indexv
-} );
-```
+jQueryUI는 WAI-ARIA 사양에 지정된 지침을 따라 개발되어지고 있음을 소개 페이지에서 볼 수 있고, 실제로 
+코드 상에도 role 및 aria-* 속성들이 적용되어 있는 것을 볼 수 있습니다.
 
-### Presentation State
+![github에서 accordion wai-aria로 검색한 결과 화면](images/github.png)
 
-The presentation's current state can be fetched by using the `getState` method. A state object contains all of the information required to put the presentation back as it was when `getState` was first called. Sort of like a snapshot. It's a simple object that can easily be stringified and persisted or sent over the wire.
+github 에서도 wai-aria와 함께 찾고자 하는 기능을 검색해보면 필요한 라이브러리나 코드 조각들을 쉽게 
+얻을 수 있습니다.
 
-```javascript
-Reveal.slide( 1 );
-// we're on slide 1
+![정보화진흥원 WAI-ARIA 사례집 코드 수록 github 페이지 화면](images/niawa-github.png)
 
-var state = Reveal.getState();
+앞서 언급된 소개했던 예제로 보는 WAI-ARIA 사례집은 인쇄물만 있는 것이 아니라, 코드가 github에 수록이 
+되어 있고, 일부는 라이브러리 형태로 제작이 되어 있기 때문에 손쉽게 가져다 사용 할 수도 있습니다.
 
-Reveal.slide( 3 );
-// we're on slide 3
+## References
 
-Reveal.setState( state );
-// we're back on slide 1
-```
-
-### Slide States
-
-If you set ``data-state="somestate"`` on a slide ``<section>``, "somestate" will be applied as a class on the document element when that slide is opened. This allows you to apply broad style changes to the page based on the active slide.
-
-Furthermore you can also listen to these changes in state via JavaScript:
-
-```javascript
-Reveal.addEventListener( 'somestate', function() {
-	// TODO: Sprinkle magic
-}, false );
-```
-
-### Slide Backgrounds
-
-Slides are contained within a limited portion of the screen by default to allow them to fit any display and scale uniformly. You can apply full page backgrounds outside of the slide area by adding a ```data-background``` attribute to your ```<section>``` elements. Four different types of backgrounds are supported: color, image, video and iframe.
-
-#### Color Backgrounds
-All CSS color formats are supported, like rgba() or hsl().
-```html
-<section data-background-color="#ff0000">
-	<h2>Color</h2>
-</section>
-```
-
-#### Image Backgrounds
-By default, background images are resized to cover the full page. Available options:
-
-| Attribute                    | Default    | Description |
-| :--------------------------- | :--------- | :---------- |
-| data-background-image        |            | URL of the image to show. GIFs restart when the slide opens. |
-| data-background-size         | cover      | See [background-size](https://developer.mozilla.org/docs/Web/CSS/background-size) on MDN.  |
-| data-background-position     | center     | See [background-position](https://developer.mozilla.org/docs/Web/CSS/background-position) on MDN. |
-| data-background-repeat       | no-repeat  | See [background-repeat](https://developer.mozilla.org/docs/Web/CSS/background-repeat) on MDN. |
-```html
-<section data-background-image="http://example.com/image.png">
-	<h2>Image</h2>
-</section>
-<section data-background-image="http://example.com/image.png" data-background-size="100px" data-background-repeat="repeat">
-	<h2>This background image will be sized to 100px and repeated</h2>
-</section>
-```
-
-#### Video Backgrounds
-Automatically plays a full size video behind the slide.
-
-| Attribute                    | Default | Description |
-| :--------------------------- | :------ | :---------- |
-| data-background-video        |         | A single video source, or a comma separated list of video sources. |
-| data-background-video-loop   | false   | Flags if the video should play repeatedly. |
-| data-background-video-muted  | false   | Flags if the audio should be muted. |
-| data-background-size         | cover   | Use `cover` for full screen and some cropping or `contain` for letterboxing. |
-
-```html
-<section data-background-video="https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.mp4,https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.webm" data-background-video-loop data-background-video-muted>
-	<h2>Video</h2>
-</section>
-```
-
-#### Iframe Backgrounds
-Embeds a web page as a slide background that covers 100% of the reveal.js width and height. The iframe is in the background layer, behind your slides, and as such it's not possible to interact with it by default. To make your background interactive, you can add the `data-background-interactive` attribute.
-```html
-<section data-background-iframe="https://slides.com" data-background-interactive>
-	<h2>Iframe</h2>
-</section>
-```
-
-#### Background Transitions
-Backgrounds transition using a fade animation by default. This can be changed to a linear sliding transition by passing ```backgroundTransition: 'slide'``` to the ```Reveal.initialize()``` call. Alternatively you can set ```data-background-transition``` on any section with a background to override that specific transition.
-
-
-### Parallax Background
-
-If you want to use a parallax scrolling background, set the first two config properties below when initializing reveal.js (the other two are optional).
-
-```javascript
-Reveal.initialize({
-
-	// Parallax background image
-	parallaxBackgroundImage: '', // e.g. "https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg"
-
-	// Parallax background size
-	parallaxBackgroundSize: '', // CSS syntax, e.g. "2100px 900px" - currently only pixels are supported (don't use % or auto)
-
-	// Number of pixels to move the parallax background per slide
-	// - Calculated automatically unless specified
-	// - Set to 0 to disable movement along an axis
-	parallaxBackgroundHorizontal: 200,
-	parallaxBackgroundVertical: 50
-
-});
-```
-
-Make sure that the background size is much bigger than screen size to allow for some scrolling. [View example](http://revealjs.com/?parallaxBackgroundImage=https%3A%2F%2Fs3.amazonaws.com%2Fhakim-static%2Freveal-js%2Freveal-parallax-1.jpg&parallaxBackgroundSize=2100px%20900px).
-
-
-
-### Slide Transitions
-The global presentation transition is set using the ```transition``` config value. You can override the global transition for a specific slide by using the ```data-transition``` attribute:
-
-```html
-<section data-transition="zoom">
-	<h2>This slide will override the presentation transition and zoom!</h2>
-</section>
-
-<section data-transition-speed="fast">
-	<h2>Choose from three transition speeds: default, fast or slow!</h2>
-</section>
-```
-
-You can also use different in and out transitions for the same slide:
-
-```html
-<section data-transition="slide">
-    The train goes on …
-</section>
-<section data-transition="slide">
-    and on …
-</section>
-<section data-transition="slide-in fade-out">
-    and stops.
-</section>
-<section data-transition="fade-in slide-out">
-    (Passengers entering and leaving)
-</section>
-<section data-transition="slide">
-    And it starts again.
-</section>
-```
-
-
-### Internal links
-
-It's easy to link between slides. The first example below targets the index of another slide whereas the second targets a slide with an ID attribute (```<section id="some-slide">```):
-
-```html
-<a href="#/2/2">Link</a>
-<a href="#/some-slide">Link</a>
-```
-
-You can also add relative navigation links, similar to the built in reveal.js controls, by appending one of the following classes on any element. Note that each element is automatically given an ```enabled``` class when it's a valid navigation route based on the current slide.
-
-```html
-<a href="#" class="navigate-left">
-<a href="#" class="navigate-right">
-<a href="#" class="navigate-up">
-<a href="#" class="navigate-down">
-<a href="#" class="navigate-prev"> <!-- Previous vertical or horizontal slide -->
-<a href="#" class="navigate-next"> <!-- Next vertical or horizontal slide -->
-```
-
-
-### Fragments
-Fragments are used to highlight individual elements on a slide. Every element with the class ```fragment``` will be stepped through before moving on to the next slide. Here's an example: http://revealjs.com/#/fragments
-
-The default fragment style is to start out invisible and fade in. This style can be changed by appending a different class to the fragment:
-
-```html
-<section>
-	<p class="fragment grow">grow</p>
-	<p class="fragment shrink">shrink</p>
-	<p class="fragment fade-out">fade-out</p>
-	<p class="fragment fade-up">fade-up (also down, left and right!)</p>
-	<p class="fragment current-visible">visible only once</p>
-	<p class="fragment highlight-current-blue">blue only once</p>
-	<p class="fragment highlight-red">highlight-red</p>
-	<p class="fragment highlight-green">highlight-green</p>
-	<p class="fragment highlight-blue">highlight-blue</p>
-</section>
-```
-
-Multiple fragments can be applied to the same element sequentially by wrapping it, this will fade in the text on the first step and fade it back out on the second.
-
-```html
-<section>
-	<span class="fragment fade-in">
-		<span class="fragment fade-out">I'll fade in, then out</span>
-	</span>
-</section>
-```
-
-The display order of fragments can be controlled using the ```data-fragment-index``` attribute.
-
-```html
-<section>
-	<p class="fragment" data-fragment-index="3">Appears last</p>
-	<p class="fragment" data-fragment-index="1">Appears first</p>
-	<p class="fragment" data-fragment-index="2">Appears second</p>
-</section>
-```
-
-### Fragment events
-
-When a slide fragment is either shown or hidden reveal.js will dispatch an event.
-
-Some libraries, like MathJax (see #505), get confused by the initially hidden fragment elements. Often times this can be fixed by calling their update or render function from this callback.
-
-```javascript
-Reveal.addEventListener( 'fragmentshown', function( event ) {
-	// event.fragment = the fragment DOM element
-} );
-Reveal.addEventListener( 'fragmenthidden', function( event ) {
-	// event.fragment = the fragment DOM element
-} );
-```
-
-### Code syntax highlighting
-
-By default, Reveal is configured with [highlight.js](https://highlightjs.org/) for code syntax highlighting. Below is an example with clojure code that will be syntax highlighted. When the `data-trim` attribute is present, surrounding whitespace is automatically removed.  HTML will be escaped by default. To avoid this, for example if you are using `<mark>` to call out a line of code, add the `data-noescape` attribute to the `<code>` element.
-
-```html
-<section>
-	<pre><code data-trim data-noescape>
-(def lazy-fib
-  (concat
-   [0 1]
-   <mark>((fn rfib [a b]</mark>
-        (lazy-cons (+ a b) (rfib b (+ a b)))) 0 1)))
-	</code></pre>
-</section>
-```
-
-### Slide number
-If you would like to display the page number of the current slide you can do so using the ```slideNumber``` and ```showSlideNumber``` configuration values.
-
-```javascript
-// Shows the slide number using default formatting
-Reveal.configure({ slideNumber: true });
-
-// Slide number formatting can be configured using these variables:
-//  "h.v": 	horizontal . vertical slide number (default)
-//  "h/v": 	horizontal / vertical slide number
-//    "c": 	flattened slide number
-//  "c/t": 	flattened slide number / total slides
-Reveal.configure({ slideNumber: 'c/t' });
-
-// Control which views the slide number displays on using the "showSlideNumber" value:
-//     "all": show on all views (default)
-// "speaker": only show slide numbers on speaker notes view
-//   "print": only show slide numbers when printing to PDF
-Reveal.configure({ showSlideNumber: 'speaker' });
-
-```
-
-
-### Overview mode
-
-Press "Esc" or "o" keys to toggle the overview mode on and off. While you're in this mode, you can still navigate between slides,
-as if you were at 1,000 feet above your presentation. The overview mode comes with a few API hooks:
-
-```javascript
-Reveal.addEventListener( 'overviewshown', function( event ) { /* ... */ } );
-Reveal.addEventListener( 'overviewhidden', function( event ) { /* ... */ } );
-
-// Toggle the overview mode programmatically
-Reveal.toggleOverview();
-```
-
-
-### Fullscreen mode
-Just press »F« on your keyboard to show your presentation in fullscreen mode. Press the »ESC« key to exit fullscreen mode.
-
-
-### Embedded media
-Add `data-autoplay` to your media element if you want it to automatically start playing when the slide is shown:
-
-```html
-<video data-autoplay src="http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"></video>
-```
-
-If you want to enable or disable autoplay globally, for all embedded media, you can use the `autoPlayMedia` configuration option. If you set this to `true` ALL media will autoplay regardless of individual `data-autoplay` attributes. If you initialize with `autoPlayMedia: false` NO media will autoplay.
-
-Note that embedded HTML5 `<video>`/`<audio>` and YouTube/Vimeo iframes are automatically paused when you navigate away from a slide. This can be disabled by decorating your element with a `data-ignore` attribute.
-
-
-### Embedded iframes
-
-reveal.js automatically pushes two [post messages](https://developer.mozilla.org/en-US/docs/Web/API/Window.postMessage) to embedded iframes. ```slide:start``` when the slide containing the iframe is made visible and ```slide:stop``` when it is hidden.
-
-
-### Stretching elements
-Sometimes it's desirable to have an element, like an image or video, stretch to consume as much space as possible within a given slide. This can be done by adding the ```.stretch``` class to an element as seen below:
-
-```html
-<section>
-	<h2>This video will use up the remaining space on the slide</h2>
-    <video class="stretch" src="http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"></video>
-</section>
-```
-
-Limitations:
-- Only direct descendants of a slide section can be stretched
-- Only one descendant per slide section can be stretched
-
-
-### postMessage API
-The framework has a built-in postMessage API that can be used when communicating with a presentation inside of another window. Here's an example showing how you'd make a reveal.js instance in the given window proceed to slide 2:
-
-```javascript
-<window>.postMessage( JSON.stringify({ method: 'slide', args: [ 2 ] }), '*' );
-```
-
-When reveal.js runs inside of an iframe it can optionally bubble all of its events to the parent. Bubbled events are stringified JSON with three fields: namespace, eventName and state. Here's how you subscribe to them from the parent window:
-
-```javascript
-window.addEventListener( 'message', function( event ) {
-	var data = JSON.parse( event.data );
-	if( data.namespace === 'reveal' && data.eventName ==='slidechanged' ) {
-		// Slide changed, see data.state for slide number
-	}
-} );
-```
-
-This cross-window messaging can be toggled on or off using configuration flags.
-
-```javascript
-Reveal.initialize({
-	...,
-
-	// Exposes the reveal.js API through window.postMessage
-	postMessage: true,
-
-	// Dispatches all reveal.js events to the parent window through postMessage
-	postMessageEvents: false
-});
-```
-
-
-## PDF Export
-
-Presentations can be exported to PDF via a special print stylesheet. This feature requires that you use [Google Chrome](http://google.com/chrome) or [Chromium](https://www.chromium.org/Home) and to be serving the presentation from a webserver.
-Here's an example of an exported presentation that's been uploaded to SlideShare: http://www.slideshare.net/hakimel/revealjs-300.
-
-### Page size
-Export dimensions are inferred from the configured [presentation size](#presentation-size). Slides that are too tall to fit within a single page will expand onto multiple pages. You can limit how many pages a slide may expand onto using the `pdfMaxPagesPerSlide` config option, for example `Reveal.configure({ pdfMaxPagesPerSlide: 1 })` ensures that no slide ever grows to more than one printed page.
-
-### Print stylesheet
-To enable the PDF print capability in your presentation, the special print stylesheet at [/css/print/pdf.css](https://github.com/hakimel/reveal.js/blob/master/css/print/pdf.css) must be loaded. The default index.html file handles this for you when `print-pdf` is included in the query string. If you're using a different HTML template, you can add this to your HEAD:
-
-```html
-<script>
-	var link = document.createElement( 'link' );
-	link.rel = 'stylesheet';
-	link.type = 'text/css';
-	link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
-	document.getElementsByTagName( 'head' )[0].appendChild( link );
-</script>
-```
-
-### Instructions
-1. Open your presentation with `print-pdf` included in the query string i.e. http://localhost:8000/?print-pdf. You can test this with [revealjs.com?print-pdf](http://revealjs.com?print-pdf).
-  * If you want to include [speaker notes](#speaker-notes) in your export, you can append `showNotes=true` to the query string: http://localhost:8000/?print-pdf&showNotes=true
-1. Open the in-browser print dialog (CTRL/CMD+P).
-1. Change the **Destination** setting to **Save as PDF**.
-1. Change the **Layout** to **Landscape**.
-1. Change the **Margins** to **None**.
-1. Enable the **Background graphics** option.
-1. Click **Save**.
-
-![Chrome Print Settings](https://s3.amazonaws.com/hakim-static/reveal-js/pdf-print-settings-2.png)
-
-Alternatively you can use the [decktape](https://github.com/astefanutti/decktape) project.
-
-## Theming
-
-The framework comes with a few different themes included:
-
-- black: Black background, white text, blue links (default theme)
-- white: White background, black text, blue links
-- league: Gray background, white text, blue links (default theme for reveal.js < 3.0.0)
-- beige: Beige background, dark text, brown links
-- sky: Blue background, thin dark text, blue links
-- night: Black background, thick white text, orange links
-- serif: Cappuccino background, gray text, brown links
-- simple: White background, black text, blue links
-- solarized: Cream-colored background, dark green text, blue links
-
-Each theme is available as a separate stylesheet. To change theme you will need to replace **black** below with your desired theme name in index.html:
-
-```html
-<link rel="stylesheet" href="css/theme/black.css" id="theme">
-```
-
-If you want to add a theme of your own see the instructions here: [/css/theme/README.md](https://github.com/hakimel/reveal.js/blob/master/css/theme/README.md).
-
-
-## Speaker Notes
-
-reveal.js comes with a speaker notes plugin which can be used to present per-slide notes in a separate browser window. The notes window also gives you a preview of the next upcoming slide so it may be helpful even if you haven't written any notes. Press the 's' key on your keyboard to open the notes window.
-
-A speaker timer starts as soon as the speaker view is opened. You can reset it to 00:00:00 at any time by simply clicking/tapping on it.
-
-Notes are defined by appending an ```<aside>``` element to a slide as seen below. You can add the ```data-markdown``` attribute to the aside element if you prefer writing notes using Markdown.
-
-Alternatively you can add your notes in a `data-notes` attribute on the slide. Like `<section data-notes="Something important"></section>`.
-
-When used locally, this feature requires that reveal.js [runs from a local web server](#full-setup).
-
-```html
-<section>
-	<h2>Some Slide</h2>
-
-	<aside class="notes">
-		Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you open the speaker notes window (hit 's' on your keyboard).
-	</aside>
-</section>
-```
-
-If you're using the external Markdown plugin, you can add notes with the help of a special delimiter:
-
-```html
-<section data-markdown="example.md" data-separator="^\n\n\n" data-separator-vertical="^\n\n" data-separator-notes="^Note:"></section>
-
-# Title
-## Sub-title
-
-Here is some content...
-
-Note:
-This will only display in the notes window.
-```
-
-#### Share and Print Speaker Notes
-
-Notes are only visible to the speaker inside of the speaker view. If you wish to share your notes with others you can initialize reveal.js with the `showNotes` config value set to `true`. Notes will appear along the bottom of the presentations.
-
-When `showNotes` is enabled notes are also included when you [export to PDF](https://github.com/hakimel/reveal.js#pdf-export). By default, notes are printed in a semi-transparent box on top of the slide. If you'd rather print them on a separate page after the slide, set `showNotes: "separate-page"`.
-
-#### Speaker notes clock and timers
-
-The speaker notes window will also show:
-
-- Time elapsed since the beginning of the presentation.  If you hover the mouse above this section, a timer reset button will appear.
-- Current wall-clock time
-- (Optionally) a pacing timer which indicates whether the current pace of the presentation is on track for the right timing (shown in green), and if not, whether the presenter should speed up (shown in red) or has the luxury of slowing down (blue).
-
-The pacing timer can be enabled by configuring by the `defaultTiming` parameter in the `Reveal` configuration block, which specifies the number of seconds per slide.  120 can be a reasonable rule of thumb.  Timings can also be given per slide `<section>` by setting the `data-timing` attribute.  Both values are in numbers of seconds.
-
-
-## Server Side Speaker Notes
-
-In some cases it can be desirable to run notes on a separate device from the one you're presenting on. The Node.js-based notes plugin lets you do this using the same note definitions as its client side counterpart. Include the required scripts by adding the following dependencies:
-
-```javascript
-Reveal.initialize({
-	...
-
-	dependencies: [
-		{ src: 'socket.io/socket.io.js', async: true },
-		{ src: 'plugin/notes-server/client.js', async: true }
-	]
-});
-```
-
-Then:
-
-1. Install [Node.js](http://nodejs.org/) (4.0.0 or later)
-2. Run ```npm install```
-3. Run ```node plugin/notes-server```
-
-
-## Multiplexing
-
-The multiplex plugin allows your audience to view the slides of the presentation you are controlling on their own phone, tablet or laptop. As the master presentation navigates the slides, all client presentations will update in real time. See a demo at [https://reveal-js-multiplex-ccjbegmaii.now.sh/](https://reveal-js-multiplex-ccjbegmaii.now.sh/).
-
-The multiplex plugin needs the following 3 things to operate:
-
-1. Master presentation that has control
-2. Client presentations that follow the master
-3. Socket.io server to broadcast events from the master to the clients
-
-More details:
-
-#### Master presentation
-Served from a static file server accessible (preferably) only to the presenter. This need only be on your (the presenter's) computer. (It's safer to run the master presentation from your own computer, so if the venue's Internet goes down it doesn't stop the show.) An example would be to execute the following commands in the directory of your master presentation:
-
-1. ```npm install node-static```
-2. ```static```
-
-If you want to use the speaker notes plugin with your master presentation then make sure you have the speaker notes plugin configured correctly along with the configuration shown below, then execute ```node plugin/notes-server``` in the directory of your master presentation. The configuration below will cause it to connect to the socket.io server as a master, as well as launch your speaker-notes/static-file server.
-
-You can then access your master presentation at ```http://localhost:1947```
-
-Example configuration:
-```javascript
-Reveal.initialize({
-	// other options...
-
-	multiplex: {
-		// Example values. To generate your own, see the socket.io server instructions.
-		secret: '13652805320794272084', // Obtained from the socket.io server. Gives this (the master) control of the presentation
-		id: '1ea875674b17ca76', // Obtained from socket.io server
-		url: 'https://reveal-js-multiplex-ccjbegmaii.now.sh' // Location of socket.io server
-	},
-
-	// Don't forget to add the dependencies
-	dependencies: [
-		{ src: '//cdn.socket.io/socket.io-1.3.5.js', async: true },
-		{ src: 'plugin/multiplex/master.js', async: true },
-
-		// and if you want speaker notes
-		{ src: 'plugin/notes-server/client.js', async: true }
-
-		// other dependencies...
-	]
-});
-```
-
-#### Client presentation
-Served from a publicly accessible static file server. Examples include: GitHub Pages, Amazon S3, Dreamhost, Akamai, etc. The more reliable, the better. Your audience can then access the client presentation via ```http://example.com/path/to/presentation/client/index.html```, with the configuration below causing them to connect to the socket.io server as clients.
-
-Example configuration:
-```javascript
-Reveal.initialize({
-	// other options...
-
-	multiplex: {
-		// Example values. To generate your own, see the socket.io server instructions.
-		secret: null, // null so the clients do not have control of the master presentation
-		id: '1ea875674b17ca76', // id, obtained from socket.io server
-		url: 'https://reveal-js-multiplex-ccjbegmaii.now.sh' // Location of socket.io server
-	},
-
-	// Don't forget to add the dependencies
-	dependencies: [
-		{ src: '//cdn.socket.io/socket.io-1.3.5.js', async: true },
-		{ src: 'plugin/multiplex/client.js', async: true }
-
-		// other dependencies...
-	]
-});
-```
-
-#### Socket.io server
-Server that receives the slideChanged events from the master presentation and broadcasts them out to the connected client presentations. This needs to be publicly accessible. You can run your own socket.io server with the commands:
-
-1. ```npm install```
-2. ```node plugin/multiplex```
-
-Or you can use the socket.io server at [https://reveal-js-multiplex-ccjbegmaii.now.sh/](https://reveal-js-multiplex-ccjbegmaii.now.sh/).
-
-You'll need to generate a unique secret and token pair for your master and client presentations. To do so, visit ```http://example.com/token```, where ```http://example.com``` is the location of your socket.io server. Or if you're going to use the socket.io server at [https://reveal-js-multiplex-ccjbegmaii.now.sh/](https://reveal-js-multiplex-ccjbegmaii.now.sh/), visit [https://reveal-js-multiplex-ccjbegmaii.now.sh/token](https://reveal-js-multiplex-ccjbegmaii.now.sh/token).
-
-You are very welcome to point your presentations at the Socket.io server running at [https://reveal-js-multiplex-ccjbegmaii.now.sh/](https://reveal-js-multiplex-ccjbegmaii.now.sh/), but availability and stability are not guaranteed.
-
-For anything mission critical I recommend you run your own server. The easiest way to do this is by installing [now](https://zeit.co/now). With that installed, deploying your own Multiplex server is as easy running the following command from the reveal.js folder: `now plugin/multiplex`.
-
-##### socket.io server as file static server
-
-The socket.io server can play the role of static file server for your client presentation, as in the example at [https://reveal-js-multiplex-ccjbegmaii.now.sh/](https://reveal-js-multiplex-ccjbegmaii.now.sh/). (Open [https://reveal-js-multiplex-ccjbegmaii.now.sh/](https://reveal-js-multiplex-ccjbegmaii.now.sh/) in two browsers. Navigate through the slides on one, and the other will update to match.)
-
-Example configuration:
-```javascript
-Reveal.initialize({
-	// other options...
-
-	multiplex: {
-		// Example values. To generate your own, see the socket.io server instructions.
-		secret: null, // null so the clients do not have control of the master presentation
-		id: '1ea875674b17ca76', // id, obtained from socket.io server
-		url: 'example.com:80' // Location of your socket.io server
-	},
-
-	// Don't forget to add the dependencies
-	dependencies: [
-		{ src: '//cdn.socket.io/socket.io-1.3.5.js', async: true },
-		{ src: 'plugin/multiplex/client.js', async: true }
-
-		// other dependencies...
-	]
-```
-
-It can also play the role of static file server for your master presentation and client presentations at the same time (as long as you don't want to use speaker notes). (Open [https://reveal-js-multiplex-ccjbegmaii.now.sh/](https://reveal-js-multiplex-ccjbegmaii.now.sh/) in two browsers. Navigate through the slides on one, and the other will update to match. Navigate through the slides on the second, and the first will update to match.) This is probably not desirable, because you don't want your audience to mess with your slides while you're presenting. ;)
-
-Example configuration:
-```javascript
-Reveal.initialize({
-	// other options...
-
-	multiplex: {
-		// Example values. To generate your own, see the socket.io server instructions.
-		secret: '13652805320794272084', // Obtained from the socket.io server. Gives this (the master) control of the presentation
-		id: '1ea875674b17ca76', // Obtained from socket.io server
-		url: 'example.com:80' // Location of your socket.io server
-	},
-
-	// Don't forget to add the dependencies
-	dependencies: [
-		{ src: '//cdn.socket.io/socket.io-1.3.5.js', async: true },
-		{ src: 'plugin/multiplex/master.js', async: true },
-		{ src: 'plugin/multiplex/client.js', async: true }
-
-		// other dependencies...
-	]
-});
-```
-
-## MathJax
-
-If you want to display math equations in your presentation you can easily do so by including this plugin. The plugin is a very thin wrapper around the [MathJax](http://www.mathjax.org/) library. To use it you'll need to include it as a reveal.js dependency, [find our more about dependencies here](#dependencies).
-
-The plugin defaults to using [LaTeX](http://en.wikipedia.org/wiki/LaTeX) but that can be adjusted through the ```math``` configuration object. Note that MathJax is loaded from a remote server. If you want to use it offline you'll need to download a copy of the library and adjust the ```mathjax``` configuration value.
-
-Below is an example of how the plugin can be configured. If you don't intend to change these values you do not need to include the ```math``` config object at all.
-
-```js
-Reveal.initialize({
-
-	// other options ...
-
-	math: {
-		mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js',
-		config: 'TeX-AMS_HTML-full'  // See http://docs.mathjax.org/en/latest/config-files.html
-	},
-
-	dependencies: [
-		{ src: 'plugin/math/math.js', async: true }
-	]
-
-});
-```
-
-Read MathJax's documentation if you need [HTTPS delivery](http://docs.mathjax.org/en/latest/start.html#secure-access-to-the-cdn) or serving of [specific versions](http://docs.mathjax.org/en/latest/configuration.html#loading-mathjax-from-the-cdn) for stability.
-
-
-## Installation
-
-The **basic setup** is for authoring presentations only. The **full setup** gives you access to all reveal.js features and plugins such as speaker notes as well as the development tasks needed to make changes to the source.
-
-### Basic setup
-
-The core of reveal.js is very easy to install. You'll simply need to download a copy of this repository and open the index.html file directly in your browser.
-
-1. Download the latest version of reveal.js from <https://github.com/hakimel/reveal.js/releases>
-
-2. Unzip and replace the example contents in index.html with your own
-
-3. Open index.html in a browser to view it
-
-
-### Full setup
-
-Some reveal.js features, like external Markdown and speaker notes, require that presentations run from a local web server. The following instructions will set up such a server as well as all of the development tasks needed to make edits to the reveal.js source code.
-
-1. Install [Node.js](http://nodejs.org/) (4.0.0 or later)
-
-1. Clone the reveal.js repository
-   ```sh
-   $ git clone https://github.com/hakimel/reveal.js.git
-   ```
-
-1. Navigate to the reveal.js folder
-   ```sh
-   $ cd reveal.js
-   ```
-
-1. Install dependencies
-   ```sh
-   $ npm install
-   ```
-
-1. Serve the presentation and monitor source files for changes
-   ```sh
-   $ npm start
-   ```
-
-1. Open <http://localhost:8000> to view your presentation
-
-   You can change the port by using `npm start -- --port=8001`.
-
-
-### Folder Structure
-- **css/** Core styles without which the project does not function
-- **js/** Like above but for JavaScript
-- **plugin/** Components that have been developed as extensions to reveal.js
-- **lib/** All other third party assets (JavaScript, CSS, fonts)
-
-
-## License
-
-MIT licensed
-
-Copyright (C) 2017 Hakim El Hattab, http://hakim.se
+- [WAI-ARIA Specification](https://www.w3.org/TR/wai-aria)
+- [Using ARIA](https://www.w3.org/TR/using-aria)
+- [WAI-ARIA Authoring Practices](https://www.w3.org/TR/wai-aria-practices)
+- [HTML5 Accessibility](http://www.html5accessibility.com)

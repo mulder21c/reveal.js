@@ -61,6 +61,15 @@ module.exports = function(grunt) {
 			compress: {
 				src: 'css/reveal.css',
 				dest: 'css/reveal.min.css'
+			},
+			themes: {
+				files: [{
+					expand: true,
+					cwd: 'css/theme',
+					src: ['*.css'],
+					dest: 'css/theme',
+					ext: '.min.css'
+				}]
 			}
 		},
 
@@ -130,11 +139,11 @@ module.exports = function(grunt) {
 					'css/theme/template/*.sass',
 					'css/theme/template/*.scss'
 				],
-				tasks: 'css-themes'
+				tasks: ['css-themes', 'cssmin:themes']
 			},
 			css: {
 				files: [ 'css/reveal.scss' ],
-				tasks: 'css-core'
+				tasks: ['css-core', 'cssmin:themes']
 			},
 			html: {
 				files: root.map(path => path + '/*.html')
