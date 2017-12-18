@@ -37,7 +37,7 @@ var prismDefalutComponents = [
  * @see http://prismjs.com/#plugins
  */
 var prismPlugins = [
-  'line-highlight', 'line-numbers'
+  'line-highlight', 'line-numbers', 'keep-markup'
 ];
 /**
  * If you want to use another theme, change theme name

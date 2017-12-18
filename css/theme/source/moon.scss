@@ -9,12 +9,6 @@
 @import "../template/settings";
 // ---------------------------------------------
 
-
-
-// Include theme-specific fonts
-@import url(../../lib/font/league-gothic/league-gothic.css);
-@import url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic);
-
 /**
  * Solarized colors by Ethan Schoonover
  */
@@ -24,13 +18,13 @@ html * {
 }
 
 // Solarized colors
-$base03:    #002b36;
+$base03:    #002028;
 $base02:    #073642;
 $base01:    #586e75;
 $base00:    #657b83;
 $base0:     #839496;
-$base1:     #93a1a1;
-$base2:     #eee8d5;
+$base1:     #d2c996;
+$base2:     #e1d8bd;
 $base3:     #fdf6e3;
 $yellow:    #b58900;
 $orange:    #cb4b16;

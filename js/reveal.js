@@ -387,7 +387,7 @@
 		// up slides. Zoom produces crisper results but has a lot of
 		// xbrowser quirks so we only use it in whitelsited browsers.
 		features.zoom = 'zoom' in testElement.style && !isMobileDevice &&
-						( isChrome || /Version\/[\d\.]+.*Safari/.test( UA ) );
+						(/Version\/[\d\.]+.*Safari/.test( UA ) );
 
 	}
 
